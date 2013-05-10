@@ -1,6 +1,7 @@
 require 'digest'
 require 'time'
 require 'querystring'
+require 'openssl'
 
 module ScreenshotShark
 
@@ -11,7 +12,25 @@ module ScreenshotShark
     self.secret  = secret
   end
 
-  def build_url options
+  def api_key= api_key
+    @api_key = api_key
+  end
+
+  def api_key
+    raise 'API key not set.' unless @api_key
+    @api_key
+  end
+
+  def secret= secret
+    @secret = secret
+  end
+
+  def secret
+    raise 'Secret key not set.' unless @secret
+    @secret
+  end
+
+  def build_url options = {}
     defaults = {
       :key      => self.api_key,
       :gravity  => 'north',
@@ -22,14 +41,14 @@ module ScreenshotShark
     }
     options = defaults.merge options
 
-    h = "#{options[:key]}:#{options[:url]}:#{options[:op]}"
-    options[:token] = OpenSSL::HMAC.digest 'sha1', self.secret_key, h
+    options[:token] = hash options
 
     qs = QueryString.stringify options
     "http://www.screenshotshark.com/capture?#{qs}"
   end
+
+  def hash options
+    h = "#{options[:key]}:#{options[:url]}:#{options[:op]}"
+    OpenSSL::HMAC.hexdigest('sha1', self.secret, h)
+  end
 end
-
-options = {}
-
-puts ScreenshotShark.build_url(options)
