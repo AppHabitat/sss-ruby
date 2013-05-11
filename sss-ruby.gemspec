@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = "sss-ruby"
-  s.version     = "0.0.2"
+  s.version     = "0.0.3"
   s.summary     = "ScreenshotShark"
   s.date        = "2013-05-10"
   s.description = "ScreenshotShark API for Ruby"

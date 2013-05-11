@@ -1,9 +1,4 @@
-require './sss-ruby/main'
-require './sss-ruby/builder'
-require './sss-ruby/rails'
-require './sss-ruby/helpers'
-
-ScreenshotShark.config 'api_key', 'secret'
-builder = ScreenshotShark::Builder.new :url => 'http://yahoo.com/'
-
-puts builder.build_url()
+require 'sss-ruby/main'
+require 'sss-ruby/builder'
+require 'sss-ruby/rails'
+require 'sss-ruby/helpers'
